@@ -92,7 +92,7 @@ void connection_read_handler(void *ptr) {
     if (read_n < 0) {
         if (errno == EAGAIN || errno == EWOULDBLOCK) {
             logger(LOG_DEBUG, "xps_connection_read_handler()", "recv() would block, try again later");
-            connection->read_ready = true;  // Set read_ready to true to indicate we can try reading again later
+            connection->read_ready = false;
             return;
         }
         else {
@@ -146,7 +146,7 @@ void connection_write_handler(void *ptr) {
         if (write_n < 0) {
             if(errno == EAGAIN || errno == EWOULDBLOCK) {
                 logger(LOG_DEBUG, "connection_loop_write_handler()", "send() would block, try again later");
-                connection->write_ready = true;  // Set write_ready to true to indicate we can try writing again later
+                connection->write_ready = false;
                 return;
             }
             else {
